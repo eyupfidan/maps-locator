@@ -1,0 +1,14 @@
+.note-modal-backdrop  {
+    display:none !important;
+}
+
+.note-modal-content {
+    
+    margin-top:100px !important;
+}
+
+.note-modal-footer {
+
+    margin-bottom:20px !important;
+}
+

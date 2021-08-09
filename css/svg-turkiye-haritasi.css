@@ -1,0 +1,107 @@
+/*! SVG Türkiye Haritası | CSS | MIT Lisans | dnomak.com */
+
+.svg-turkiye-haritasi {
+  max-width: 1140px;
+  margin: 0 auto;
+  text-align: center;
+}
+.svg-turkiye-haritasi svg {
+  width: 100%;
+  height: auto;
+}
+.il-isimleri {
+  position: absolute;
+  z-index: 2;
+}
+.il-isimleri div {
+  font-family: 'Open Sans';
+  display: inline-block;
+  background: #dbc164;
+  color: #fff;
+  padding: 8px 16px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  
+}
+#svg-turkiye-haritasi path {
+  cursor: pointer;
+  fill: #222;
+  -webkit-transition: all .4s ease-out;
+  -o-transition: all .4s ease-out;
+  transition: all .4s ease-out;
+}
+#svg-turkiye-haritasi path:hover {
+  fill: #dbc164;
+}
+#guney-kibris {
+  pointer-events: none;
+}
+
+#result_map {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 30px;
+}
+
+#ankara path, #cankiri path,#kirikkale path{
+fill: #E74C3C;
+border:0px;
+}
+
+
+#gaziantep path, #kahramanmaras path, #kilis path {
+  fill:#2980B9;
+}
+
+#erzincan path, #erzurum path,#agri path, #bayburt path,#gumushane path,#ardahan path,#mus path,#igdir path,#kars path{
+  fill: #1ABC9C;
+}
+
+#konya path, #karaman path {
+  fill: #BB8FCE;
+}
+
+#antalya path, #isparta path, #burdur path, #denizli path {
+  fill: #E67E22;
+}
+
+#kayseri path, #kirsehir path, #nevsehir path,#nigde path,#sivas path,#tokat path,#yozgat path,#corum path,#aksaray path {
+  fill:rgb(90, 47, 32)
+}
+
+#bursa path, #yalova path, #balikesir path,#canakkale path {
+  fill: darkturquoise;
+}
+
+#izmir path, #manisa path, #aydin path, #mugla path {
+  fill: fuchsia;
+}
+
+#adana path, #mersin path, #hatay path, #osmaniye path
+{
+  fill:teal;
+}
+#samsun path, #sinop path, #amasya path {
+  fill: wheat;
+}
+
+#kocaeli path, #sakarya path, #bilecik path, #bolu path, #duzce path, #zonguldak path,#karabuk path,#bartin path,#kastamonu path {
+  fill: darkcyan;
+}
+
+#kuzey-kibris path {
+fill: rgb(127, 206, 62);
+}
+
+#istanbul-asya path {
+  fill:rgb(214, 174, 125);
+}
+
+#istanbul-avrupa path {
+  fill: rgb(177, 69, 69);
+}
+
+#kutahya path, #eskisehir path {
+  fill: darkkhaki;
+}
