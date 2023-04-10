@@ -1,51 +1,44 @@
+function initMap() {
+  const mapElement = document.querySelector('#svg-turkiye-haritasi');
+  const infoElement = document.querySelector('.il-isimleri');
 
+  function handleMapHover(event) {
+    const target = event.target;
+    const parentNode = target.parentNode;
 
-function svgturkiyeharitasi() {
-  const element = document.querySelector('#svg-turkiye-haritasi');
-  const info = document.querySelector('.il-isimleri');
-
-  element.addEventListener(
-    'mouseover',
-    function (event) {
-      if (event.target.tagName === 'path' && event.target.parentNode.id !== 'guney-kibris') {
-        info.innerHTML = [
-          '<div>',
-          event.target.parentNode.getAttribute('data-iladi'),
-          '</div>'
-        ].join('');
-      }
+    if (target.tagName === 'path' && parentNode.id !== 'guney-kibris') {
+      infoElement.innerHTML = `<div>${parentNode.getAttribute('data-iladi')}</div>`;
     }
-  );
+  }
 
-  element.addEventListener(
-    'mousemove',
-    function (event) {
-      info.style.top = event.pageY + 25 + 'px';
-      info.style.left = event.pageX + 'px';
+  function handleMapMove(event) {
+    infoElement.style.top = `${event.pageY + 25}px`;
+    infoElement.style.left = `${event.pageX}px`;
+  }
+
+  function handleMapOut() {
+    infoElement.innerHTML = '';
+  }
+
+  function handleMapClick(event) {
+    const target = event.target;
+    const parentNode = target.parentNode;
+
+    if (target.tagName === 'path' && parentNode.getAttribute('data-plakakodu')) {
+      $( "#alert_primary" ).hide( "slow");
+
+      const city_id = parentNode.getAttribute('data-plakakodu');
+      const queryParams = new URLSearchParams({city_id});
+
+      fetch(`http://localhost/get_city.php?${queryParams}`)
+        .then(response => response.text())
+        .then(html => $('#result').html(html))
+        .catch(error => console.error('Error fetching city data', error));
     }
-  );
+  }
 
-  element.addEventListener(
-    'mouseout',
-    function (event) {
-      info.innerHTML = '';
-    }
-  );
-
+  mapElement.addEventListener('mouseover', handleMapHover);
+  mapElement.addEventListener('mousemove', handleMapMove);
+  mapElement.addEventListener('mouseout', handleMapOut);
+  mapElement.addEventListener('click', handleMapClick);
 }
-$(document).ready(function() {
-  $("#svg-turkiye-haritasi").click(function(event) {
-    $( "#alert_primary" ).hide( "slow", function() {
-    });
-    var parentcode = event.target.parentNode.getAttribute('data-plakakodu');
-    var city_id = "city_id=" + parentcode ;
-    $.ajax({
-        type:'GET',
-        url:'http://localhost/get_city.php',
-        data: city_id,
-        success:function(html){
-           $('#result').html(html);
-        }
-    });
-  });
-});
