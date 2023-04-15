@@ -1,15 +1,13 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-
-include('panel/settings/config.php');
+include 'panel/settings/config.php';
 
 $city_id = $_GET['city_id'];
-
 $query = $db->prepare('SELECT * FROM plaka INNER JOIN stores ON plaka.store_id = stores.store_id WHERE plaka.plaka = ?');
 $query->execute([$city_id]);
+$stores = $query->fetchAll(PDO::FETCH_ASSOC);
 
-if($query->rowCount() > 0) {
-  $result = $query->fetchAll(PDO::FETCH_ASSOC);
+if (count($stores) > 0) {
   ?>
   <div class="container">
     <table class="table">
@@ -22,32 +20,31 @@ if($query->rowCount() > 0) {
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($result as $row): ?>
+        <?php foreach ($stores as $store): ?>
           <?php
-            $store_id = $row['store_id'];
-            $store_name = $row['store_name'];
-            $store_address = $row['store_adress'];
-            $lat = $row['latitude'];
-            $long = $row['longitude'];
-            $plaka = $row['plaka'];
+            $store_id = $store['store_id'];
+            $store_name = $store['store_name'];
+            $store_address = $store['store_adress'];
+            $lat = $store['latitude'];
+            $long = $store['longitude'];
 
-            $query_pl = $db->prepare('SELECT * FROM plaka WHERE store_id = ?');
-            $query_pl->execute([$store_id]);
-            $plaka_result = $query_pl->fetchAll(PDO::FETCH_ASSOC);
+            $plaka_query = $db->prepare('SELECT * FROM plaka WHERE store_id = ?');
+            $plaka_query->execute([$store_id]);
+            $plakas = $plaka_query->fetchAll(PDO::FETCH_ASSOC);
 
             $city_list = '';
-            foreach ($plaka_result as $qua) {
-              $son_pl = $qua['plaka'];
+            foreach ($plakas as $plaka) {
+              $plaka_id = $plaka['plaka'];
 
-              $query_ct = $db->prepare('SELECT * FROM locations WHERE plaka = ?');
-              $query_ct->execute([$son_pl]);
-              $ct_result = $query_ct->fetchAll(PDO::FETCH_ASSOC);
+              $location_query = $db->prepare('SELECT * FROM locations WHERE plaka = ?');
+              $location_query->execute([$plaka_id]);
+              $locations = $location_query->fetchAll(PDO::FETCH_ASSOC);
 
-              foreach ($ct_result as $ct) {
-                if ($ct['konum_adi'] == 'İSTANBUL') {
-                  $city_list = $ct['konum_adi'];
+              foreach ($locations as $location) {
+                if ($location['konum_adi'] == 'İSTANBUL') {
+                  $city_list = $location['konum_adi'];
                 } else {
-                  $city_list .= $ct['konum_adi'] . ' ';
+                  $city_list .= $location['konum_adi'] . ' ';
                 }
               }
             }
@@ -62,7 +59,7 @@ if($query->rowCount() > 0) {
       </tbody>
     </table>
   </div>
-<?php
+  <?php
 } else {
 ?>
   <div class="container">

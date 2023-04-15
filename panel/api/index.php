@@ -1,9 +1,28 @@
-<?php require('../settings/config.php'); 
-if($_SESSION["user_admin"] == 0){
-    header('location: login.php');
+<?php
+require_once __DIR__ . '/../settings/config.php'; // Dosya yolu için __DIR__ kullanıldı.
+
+/**
+ * Kullanıcının yönetici yetkisi olup olmadığını kontrol eder.
+ * 
+ * @return void
+ */
+function checkAdminUser(): void
+{
+    if ($_SESSION["user_admin"] == 0) {
+        header('location: login.php');
+        exit(); // header() fonksiyonu sonrası işlemler devam etmemeli. Bu yüzden exit() kullanılır.
+    }
 }
+
+// Kullanıcının yönetici yetkisi olup olmadığı kontrol edilir.
+checkAdminUser();
+
+// API anahtarını veritabanından alır.
+$api_key = '';
 $get_api_key = $db->query("SELECT * FROM api_key", PDO::FETCH_ASSOC);
-$api_key  = $get_api_key -> fetch();
+if ($get_api_key) {
+    $api_key  = $get_api_key->fetch()['api_key'] ?? '';
+}
 ?>
 <!doctype html>
 <html lang="tr">
